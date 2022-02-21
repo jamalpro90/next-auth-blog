@@ -1,9 +1,8 @@
 import { AliwangwangFilled, LeftCircleFilled } from "@ant-design/icons";
-import { Button } from "antd";
-import Text from "antd/lib/typography/Text";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import ButtonNavJS from "./ButtonNavJS";
+import { signIn } from "next-auth/react";
 
 const NavbarJS = () => {
   const iconContainer = useRef(null);
@@ -30,7 +29,7 @@ const NavbarJS = () => {
         {/* Right */}
         <div className="right">
           <p>Hello, Jamal Pro</p>
-          <ButtonNavJS text="Sign out" />
+          <ButtonNavJS text="Sign In" onClick={() => signIn()} />
         </div>
       </div>
 
@@ -58,7 +57,7 @@ const NavbarJS = () => {
         {/* Nav Menu */}
         <div className="nav-menu-mobile" ref={menuMobile}>
           <p>Hello, Jamal Pro</p>
-          <ButtonNavJS text="Sign out" />
+          <ButtonNavJS text="Sign In" onClick={() => signIn()} />
         </div>
       </div>
     </div>

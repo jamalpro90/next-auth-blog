@@ -10,7 +10,9 @@ const BlogDetail = () => {
     <LayoutJS title="Blog Detail">
       <div className="blog-detail">
         {/* Image */}
-        <div className="img-container">
+        <img src="/img/coding-1.jpg" alt="image" width={40} height={42} />
+
+        {/* <div className="img-container">
           <Image
             src="/img/coding-1.jpg"
             alt="Thumbnail"
@@ -19,7 +21,7 @@ const BlogDetail = () => {
             layout="responsive"
             className="img"
           />
-        </div>
+        </div> */}
 
         {/* Title */}
         <Title className="title">Typescript</Title>

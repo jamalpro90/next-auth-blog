@@ -5,7 +5,7 @@ import NavbarJS from "./NavbarJS";
 
 const LayoutJS = ({ children, title }) => {
   return (
-    <>
+    <div className="layout-container">
       <Head>
         <title>{title}</title>
       </Head>
@@ -14,7 +14,7 @@ const LayoutJS = ({ children, title }) => {
       <div className="layout-children">{children}</div>
 
       <FooterJS />
-    </>
+    </div>
   );
 };
 

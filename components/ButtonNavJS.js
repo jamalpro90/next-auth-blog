@@ -1,7 +1,11 @@
 import React from "react";
 
-const ButtonNavJS = ({ text }) => {
-  return <button className="btn-navbar">{text}</button>;
+const ButtonNavJS = ({ text, onClick }) => {
+  return (
+    <button className="btn-navbar" onClick={onClick}>
+      {text}
+    </button>
+  );
 };
 
 export default ButtonNavJS;
