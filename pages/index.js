@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <LayoutJS>
       <InputSearchJS />
-      {/* <CardsJS /> */}
+      <CardsJS />
     </LayoutJS>
   );
 }

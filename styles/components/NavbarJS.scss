@@ -93,3 +93,9 @@
     }
   }
 }
+
+@media (max-width: 400px) {
+  .navbar .container {
+    padding: 10px 1rem;
+  }
+}

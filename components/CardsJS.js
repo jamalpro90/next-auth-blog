@@ -1,32 +1,19 @@
 import { Card, Col, Row } from "antd";
 import React from "react";
+import CardItemJS from "./CardItemJS";
 
 const CardsJS = () => {
   return (
     <div>
-      <Row style={{ border: "2px solid black" }}>
-        <Col span={6}>
-          <Card
-            title="Card 1"
-            extra={<a href="#">More</a>}
-            style={{ width: 300 }}
-          >
-            <p>Card content</p>
-            <p>Card content</p>
-            <p>Card content</p>
-          </Card>
+      <Row gutter={16} style={{ marginTop: 20 }}>
+        <Col xs={12} sm={8} md={8} lg={6} xl={6}>
+          <CardItemJS />
         </Col>
-
-        <Col span={6} offset={11}>
-          <Card
-            title="Card 2"
-            extra={<a href="#">More</a>}
-            style={{ width: 300 }}
-          >
-            <p>Card content</p>
-            <p>Card content</p>
-            <p>Card content</p>
-          </Card>
+        <Col xs={12} sm={8} md={8} lg={6} xl={6}>
+          <CardItemJS />
+        </Col>
+        <Col xs={12} sm={8} md={8} lg={6} xl={6}>
+          <CardItemJS />
         </Col>
       </Row>
     </div>
