@@ -1,0 +1,15 @@
+footer {
+  background-color: $color1;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+
+  .text {
+    color: white;
+  }
+
+  .heart-icon {
+    color: red;
+    margin: 0 3px;
+  }
+}
