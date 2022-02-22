@@ -50,12 +50,7 @@ const LayoutDashMainJS = ({ title, children, defaultSelect }) => {
                 <a>My Blogs</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="4" icon={<DownloadOutlined />}>
-              <Link href="/dashboard/download">
-                <a>Download</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="5" icon={<UserOutlined />}>
+            <Menu.Item key="4" icon={<UserOutlined />}>
               <Link href="/dashboard/profile">
                 <a>Profile</a>
               </Link>

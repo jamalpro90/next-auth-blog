@@ -1,6 +1,11 @@
 import React from "react";
 import { Card, Tooltip } from "antd";
-import { DeleteFilled, EditFilled, FileOutlined } from "@ant-design/icons";
+import {
+  DeleteFilled,
+  DownloadOutlined,
+  EditFilled,
+  FileOutlined,
+} from "@ant-design/icons";
 
 // file css ada di styles/pages/myblog.scss
 const CardItemMyBlogJS = ({ title, text, imgUrl }) => {
@@ -14,6 +19,11 @@ const CardItemMyBlogJS = ({ title, text, imgUrl }) => {
 const IconGroup = () => {
   return (
     <div className="icon-group">
+      <a href="#">
+        <Tooltip placement="topLeft" title="Download File" arrowPointAtCenter>
+          <DownloadOutlined className="icon download" />
+        </Tooltip>
+      </a>
       <a href="#">
         <Tooltip placement="topLeft" title="Open File" arrowPointAtCenter>
           <FileOutlined className="icon open" />

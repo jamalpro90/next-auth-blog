@@ -1,0 +1,16 @@
+.profile {
+  // border: 2px solid black;
+  height: 533px;
+  width: 100%;
+  overflow-y: auto;
+
+  .icon {
+    font-size: 7rem;
+    background-color: $color2;
+    border: 1px solid $color1;
+    color: white;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+}

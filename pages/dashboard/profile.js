@@ -1,88 +1,163 @@
-import {
-  BookOutlined,
-  DownloadOutlined,
-  PlusOutlined,
-  ProfileFilled,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, Typography } from "antd";
-import Link from "next/link";
-import React from "react";
-import CardsDashJS from "../../components/CardsDashJS";
-import LayoutDashJS from "../../components/LayoutDashJS";
+import { UserOutlined } from "@ant-design/icons";
+import React, { useRef } from "react";
+import LayoutDashMainJS from "../../components/LayoutDashMainJS";
+import { Form, Input, Button, Select, Col, Row, DatePicker } from "antd";
 
-const { Title } = Typography;
-const { Header, Content, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Option } = Select;
+const { TextArea } = Input;
 
-const Profile = () => {
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const tailLayout = {
+  wrapperCol: {
+    offset: 8,
+    span: 16,
+  },
+};
+
+const Dashboard = () => {
+  const formRef = useRef(null);
+
+  // Ketika data berhasil dikirim
+  const onFinish = values => {
+    console.log("Success:", values);
+  };
+
+  // ketika data gagal dikirim
+  const onFinishFailed = errorInfo => {
+    console.log("Failed:", errorInfo);
+  };
+
+  // fungsi pilih gender
+  const onGenderChange = value => {
+    switch (value) {
+      case "male":
+        formRef.current.setFieldsValue({
+          note: "Hi, man!",
+        });
+        return;
+
+      case "female":
+        formRef.current.setFieldsValue({
+          note: "Hi, lady!",
+        });
+        return;
+
+      case "other":
+        formRef.current.setFieldsValue({
+          note: "Hi there!",
+        });
+    }
+  };
+
+  // ketika tekan tombol reset
+  const onReset = () => {
+    formRef.current.resetFields();
+  };
+
   return (
-    <LayoutDashJS>
-      <Layout className="dashboard">
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={broken => {
-            console.log(broken);
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-          }}
+    <LayoutDashMainJS title="Profile" defaultSelect="4">
+      <div className="profile">
+        <Form
+          {...layout}
+          ref={formRef}
+          name="newBlog"
+          // labelCol={{ span: 8 }}
+          wrapperCol={{ span: 8 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
         >
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["5"]}>
-            <Menu.Item key="1" icon={<ProfileFilled />}>
-              <Link href="/dashboard">
-                <a>Dashboard</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<PlusOutlined />}>
-              <Link href="/dashboard/new-blog">
-                <a>Add New Blog</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="3" icon={<BookOutlined />}>
-              <Link href="/dashboard/my-blogs">
-                <a>My Blogs</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="4" icon={<DownloadOutlined />}>
-              <Link href="/dashboard/download">
-                <a>Download</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="5" icon={<UserOutlined />}>
-              <Link href="/dashboard/profile">
-                <a>Profile</a>
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout className="site-layout">
-          {/* Header */}
-          <Header
-            className="site-layout-background header"
-            style={{ padding: 0 }}
-          >
-            <Title className="title">Profile</Title>
-          </Header>
+          {/* Icon */}
+          <Row justify="center">
+            <Col>
+              <UserOutlined className="icon" />
+            </Col>
+          </Row>
 
-          {/* Slash url */}
-          <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Jamal Pro</Breadcrumb.Item>
-            </Breadcrumb>
-            {/* Content */}
-            <div className="site-layout-background content-container">
-              <h2>Hello, Jamal Pro</h2>
-              <CardsDashJS />
-            </div>
-          </Content>
-        </Layout>
-      </Layout>
-    </LayoutDashJS>
+          {/* Username */}
+          <Form.Item label="Username" name="username">
+            <Input defaultValue="Jamal Pro" />
+          </Form.Item>
+
+          {/* Address */}
+          <Form.Item label="Address" name="address">
+            <Input placeholder="Jl. Soekarno Hatta No. 70, Kota Malang" />
+          </Form.Item>
+
+          {/* Phone number */}
+          <Form.Item label="Phone Number" name="phone-number">
+            <Input placeholder="+62123456789" />
+          </Form.Item>
+
+          {/* Pilih gender */}
+          <Form.Item name="gender" label="Gender">
+            <Select
+              placeholder="Select a option and change input text above"
+              onChange={onGenderChange}
+              allowClear
+            >
+              <Option value="male">male</Option>
+              <Option value="female">female</Option>
+              <Option value="other">other</Option>
+            </Select>
+          </Form.Item>
+
+          {/* Other Gender */}
+          <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, currentValues) =>
+              prevValues.gender !== currentValues.gender
+            }
+          >
+            {({ getFieldValue }) =>
+              getFieldValue("gender") === "other" ? (
+                <Form.Item name="customizeGender" label="Customize Gender">
+                  <Input />
+                </Form.Item>
+              ) : null
+            }
+          </Form.Item>
+
+          {/* Tanggal lahir */}
+          <Form.Item label="Date of birth">
+            <DatePicker />
+          </Form.Item>
+
+          {/* About */}
+          <Form.Item label="About" name="about">
+            <TextArea rows={5} placeholder="Telling about youself" />
+          </Form.Item>
+
+          <Row justify="center">
+            {/* Save */}
+            <Col>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Save
+                </Button>
+              </Form.Item>
+            </Col>
+            {/* Reset */}
+            <Col offset={1}>
+              <Form.Item>
+                <Button htmlType="button" onClick={onReset}>
+                  Reset
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+    </LayoutDashMainJS>
   );
 };
 
-export default Profile;
+export default Dashboard;
