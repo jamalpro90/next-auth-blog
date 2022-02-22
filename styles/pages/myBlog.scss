@@ -1,0 +1,45 @@
+.my-blog {
+  // border: 2px solid black;
+  height: 533px;
+  overflow-y: auto;
+
+  .card {
+    margin-bottom: 30px;
+  }
+
+  .icon-group {
+    .icon {
+      font-size: 1.2rem;
+      margin-right: 30px;
+
+      &.delete {
+        color: $red;
+      }
+      &.edit {
+        color: $blue;
+      }
+      &.open {
+        color: $green;
+      }
+    }
+  }
+}
+@media (max-width: 600px) {
+  .my-blog {
+    position: relative;
+
+    .card {
+      padding-bottom: 30px;
+    }
+
+    .icon-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+}
