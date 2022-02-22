@@ -1,88 +1,77 @@
-import {
-  BookOutlined,
-  DownloadOutlined,
-  PlusOutlined,
-  ProfileFilled,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, Typography } from "antd";
-import Link from "next/link";
 import React from "react";
-import CardsDashJS from "../../components/CardsDashJS";
-import LayoutDashJS from "../../components/LayoutDashJS";
+import LayoutDashMainJS from "../../components/LayoutDashMainJS";
+import { Form, Input, Button, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 
-const { Title } = Typography;
-const { Header, Content, Sider } = Layout;
-const { SubMenu } = Menu;
+const { TextArea } = Input;
 
-const AddNewBlog = () => {
+const NewBlog = () => {
+  // ketika file gambar berhasil di upload
+  const normFile = e => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+  // Ketika data berhasil dikirim
+  const onFinish = values => {
+    console.log("Success:", values);
+  };
+
+  // ketika data gagal dikirim
+  const onFinishFailed = errorInfo => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
-    <LayoutDashJS>
-      <Layout className="dashboard">
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={broken => {
-            console.log(broken);
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-          }}
+    <LayoutDashMainJS title="Add New Blog" defaultSelect="2">
+      <Form
+        name="newBlog"
+        // labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item
+          label="Title"
+          name="title"
+          rules={[{ required: true, message: "Title cannot be empty" }]}
         >
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["2"]}>
-            <Menu.Item key="1" icon={<ProfileFilled />}>
-              <Link href="/dashboard">
-                <a>Dashboard</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<PlusOutlined />}>
-              <Link href="/dashboard/new-blog">
-                <a>Add New Blog</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="3" icon={<BookOutlined />}>
-              <Link href="/dashboard/my-blogs">
-                <a>My Blogs</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="4" icon={<DownloadOutlined />}>
-              <Link href="/dashboard/download">
-                <a>Download</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="5" icon={<UserOutlined />}>
-              <Link href="/dashboard/profile">
-                <a>Profile</a>
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout className="site-layout">
-          {/* Header */}
-          <Header
-            className="site-layout-background header"
-            style={{ padding: 0 }}
-          >
-            <Title className="title">Add New Blog</Title>
-          </Header>
+          <Input placeholder="Add a title" />
+        </Form.Item>
 
-          {/* Slash url */}
-          <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Jamal Pro</Breadcrumb.Item>
-            </Breadcrumb>
-            {/* Content */}
-            <div className="site-layout-background content-container">
-              <h2>Hello, Jamal Pro</h2>
-              <CardsDashJS />
-            </div>
-          </Content>
-        </Layout>
-      </Layout>
-    </LayoutDashJS>
+        <Form.Item
+          label="Text"
+          name="text"
+          rules={[{ required: true, message: "Text cannot be empty" }]}
+        >
+          <TextArea rows={10} placeholder="Write your blog" />
+        </Form.Item>
+
+        <Form.Item
+          name="upload"
+          label="Upload"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          extra="Add image"
+        >
+          <Upload name="logo" action="/upload.do" listType="picture">
+            <Button icon={<UploadOutlined />}>Click to upload</Button>
+          </Upload>
+        </Form.Item>
+
+        <Form.Item wrapperCol={{ offset: 1, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </LayoutDashMainJS>
   );
 };
 
-export default AddNewBlog;
+export default NewBlog;
