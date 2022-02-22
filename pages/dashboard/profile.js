@@ -15,7 +15,7 @@ const { Title } = Typography;
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-const Dashboard = () => {
+const Profile = () => {
   return (
     <LayoutDashJS>
       <Layout className="dashboard">
@@ -30,7 +30,7 @@ const Dashboard = () => {
           }}
         >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={["5"]}>
             <Menu.Item key="1" icon={<ProfileFilled />}>
               <Link href="/dashboard">
                 <a>Dashboard</a>
@@ -46,7 +46,7 @@ const Dashboard = () => {
                 <a>My Blogs</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="6" icon={<DownloadOutlined />}>
+            <Menu.Item key="4" icon={<DownloadOutlined />}>
               <Link href="/dashboard/download">
                 <a>Download</a>
               </Link>
@@ -64,7 +64,7 @@ const Dashboard = () => {
             className="site-layout-background header"
             style={{ padding: 0 }}
           >
-            <Title className="title">Dashboard</Title>
+            <Title className="title">Profile</Title>
           </Header>
 
           {/* Slash url */}
@@ -85,4 +85,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;
