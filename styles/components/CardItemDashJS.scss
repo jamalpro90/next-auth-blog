@@ -1,0 +1,44 @@
+.card-item-dash {
+  width: 240px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px 1px rgba($color: #000000, $alpha: 0.2);
+  transition: 0.4s;
+  margin-top: 20px;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .card-icon {
+    font-size: 4rem;
+    color: white;
+    padding: 1.5rem 0;
+
+    &.red {
+      background-color: $red;
+    }
+    &.green {
+      background-color: $green;
+    }
+    &.blue {
+      background-color: $blue;
+    }
+    &.purple {
+      background-color: $purple;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .card-item-dash {
+    width: 200px;
+  }
+}
+
+@media (max-width: 839px) {
+  .card-item-dash {
+    width: 150px;
+    max-width: 100%;
+  }
+}
