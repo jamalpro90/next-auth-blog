@@ -32,10 +32,21 @@ const IconGroupJS = ({ blog }) => {
     }
   };
 
+  const handleDownload = () => {
+    const element = document.createElement("a");
+    const file = new Blob([blog.text], {
+      type: "text/plain",
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = `${blog.title}.txt`;
+    document.body.appendChild(element);
+    element.click();
+  };
+
   return (
     <div className="icon-group">
       <Tooltip placement="topLeft" title="Download File" arrowPointAtCenter>
-        <DownloadOutlined className="icon download" />
+        <DownloadOutlined className="icon download" onClick={handleDownload} />
       </Tooltip>
       <Link href={`/blog/${blog._id}`} passHref>
         <Tooltip placement="topLeft" title="See File" arrowPointAtCenter>
