@@ -9,7 +9,7 @@ const CardItemJS = ({ blog }) => {
       size="small"
       title={blog.title}
       extra={
-        <Link href="/blog/id">
+        <Link href={`/blog/${blog._id}`}>
           <a>More</a>
         </Link>
       }

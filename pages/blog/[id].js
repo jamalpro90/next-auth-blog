@@ -5,14 +5,14 @@ import { Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-const BlogDetail = () => {
+const BlogDetail = ({ blog }) => {
   return (
     <LayoutJS title="Blog Detail">
       <div className="blog-detail">
         {/* Image */}
-        <img src="/img/coding-1.jpg" alt="image" width={40} height={42} />
+        {/* <img src="/img/coding-1.jpg" alt="image" width={40} height={42} /> */}
 
-        {/* <div className="img-container">
+        <div className="img-container">
           <Image
             src="/img/coding-1.jpg"
             alt="Thumbnail"
@@ -21,31 +21,24 @@ const BlogDetail = () => {
             layout="responsive"
             className="img"
           />
-        </div> */}
+        </div>
 
         {/* Title */}
-        <Title className="title">Typescript</Title>
+        <Title className="title">{blog.title}</Title>
 
         {/* Author */}
         <Text>
-          Author: <strong>Jamal Pro</strong>
+          Author: <strong>Not Yet</strong>
         </Text>
         <br />
         <Text italic type="secondary">
-          Created: 25-12-2020
+          Created: {blog.createdAt}
         </Text>
         <br />
 
         {/* Text */}
         <div className="text">
-          <Text>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore sed
-            totam vitae magni ab, optio eligendi ex est, enim cumque cupiditate
-            veniam nam quia? Deleniti, voluptate velit exercitationem sapiente,
-            perspiciatis quod ratione at dolore omnis recusandae iure rem libero
-            laborum perferendis id consequuntur modi aliquam consequatur
-            commodi! Quas, cum ratione.
-          </Text>
+          <Text>{blog.text}</Text>
         </div>
       </div>
     </LayoutJS>
@@ -53,3 +46,14 @@ const BlogDetail = () => {
 };
 
 export default BlogDetail;
+
+export async function getServerSideProps(context) {
+  const id = context.params.id;
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blogs`);
+  const blogs = await res.json();
+  const blog = blogs.find(blog => blog._id === id);
+
+  return {
+    props: { blog }, // will be passed to the page component as props
+  };
+}

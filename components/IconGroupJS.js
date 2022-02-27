@@ -37,14 +37,16 @@ const IconGroupJS = ({ blog }) => {
       <Tooltip placement="topLeft" title="Download File" arrowPointAtCenter>
         <DownloadOutlined className="icon download" />
       </Tooltip>
-      <Tooltip placement="topLeft" title="Open File" arrowPointAtCenter>
-        <FileOutlined className="icon open" />
-      </Tooltip>
-      <Tooltip placement="topLeft" title="Edit File" arrowPointAtCenter>
-        <Link href={`/dashboard/my-blogs/update/${blog._id}`} passHref>
+      <Link href={`/blog/${blog._id}`} passHref>
+        <Tooltip placement="topLeft" title="See File" arrowPointAtCenter>
+          <FileOutlined className="icon open" />
+        </Tooltip>
+      </Link>
+      <Link href={`/dashboard/my-blogs/update/${blog._id}`} passHref>
+        <Tooltip placement="topLeft" title="Edit File" arrowPointAtCenter>
           <EditFilled className="icon edit" />
-        </Link>
-      </Tooltip>
+        </Tooltip>
+      </Link>
       <Tooltip placement="topLeft" title="Delete File" arrowPointAtCenter>
         <DeleteFilled className="icon delete" onClick={handleDelete} />
       </Tooltip>

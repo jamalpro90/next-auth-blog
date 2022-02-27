@@ -120,8 +120,6 @@ export async function getServerSideProps(context) {
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blogs`);
   const blogs = await res.json();
   const blog = blogs.find(blog => blog._id === id);
-  // console.log(context.params.id);
-  // console.log("DATA : ", blog);
 
   return {
     props: { blog }, // will be passed to the page component as props
