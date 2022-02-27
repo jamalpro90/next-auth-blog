@@ -6,6 +6,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, Typography } from "antd";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import LayoutDashJS from "./LayoutDashJS";
@@ -16,6 +17,10 @@ const { SubMenu } = Menu;
 
 // CSS di content container nya punya halaman dashboard/index
 const LayoutDashMainJS = ({ title, children, defaultSelect }) => {
+  const { data: session } = useSession();
+
+  if (!session) return null;
+
   return (
     <LayoutDashJS>
       <Layout className="dashboard">
@@ -70,7 +75,7 @@ const LayoutDashMainJS = ({ title, children, defaultSelect }) => {
           <Content style={{ margin: "0 16px" }}>
             <Breadcrumb style={{ margin: "16px 0" }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Jamal Pro</Breadcrumb.Item>
+              <Breadcrumb.Item>{session.user.name}</Breadcrumb.Item>
             </Breadcrumb>
             {/* Content */}
             <div className="site-layout-background content-container">

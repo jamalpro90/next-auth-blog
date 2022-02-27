@@ -29,6 +29,18 @@
       align-items: center;
       justify-content: flex-start;
 
+      .dash-link {
+        color: white;
+        margin-right: 10px;
+        transition: 0.4s;
+        font-size: 1rem;
+
+        &:hover {
+          color: white;
+          transform: scale(1.07);
+        }
+      }
+
       p {
         color: white;
         padding-right: 10px;

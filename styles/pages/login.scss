@@ -17,7 +17,7 @@
     .provider {
       padding: 10px 20px;
       border-radius: 5px;
-      border: 1px solid #333;
+      border: 1px solid #999;
       width: 100%;
       text-align: center;
       margin: 10px 0;
@@ -26,6 +26,20 @@
 
       &:hover {
         box-shadow: $box-shadow;
+      }
+
+      &.github {
+        background-color: #222;
+        .text {
+          color: white;
+        }
+      }
+
+      &.google {
+        background-color: white;
+        .provider-icon {
+          color: blue;
+        }
       }
 
       .text {

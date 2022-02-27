@@ -1,0 +1,28 @@
+.blank-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 4rem;
+    color: #666;
+  }
+}
+
+@media (max-width: 992px) {
+  .blank-container h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .blank-container {
+    align-items: flex-start;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+}

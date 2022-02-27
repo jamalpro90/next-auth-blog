@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import NProgress from "nprogress";
 import "../public/nprogress.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({
   Component,
@@ -34,6 +36,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
+      <ToastContainer />
     </SessionProvider>
   );
 }

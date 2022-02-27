@@ -15,24 +15,21 @@ const CardsDashJS = () => {
         <CardItemDashJS
           title="Create a new blog"
           icon={<PlusOutlined className="card-icon red" />}
+          linkHref="/dashboard/new-blog"
         />
       </Col>
       <Col xs={24} sm={12} md={8} xl={6}>
         <CardItemDashJS
           title="All My Blog"
           icon={<BookOutlined className="card-icon green" />}
-        />
-      </Col>
-      <Col xs={24} sm={12} md={8} xl={6}>
-        <CardItemDashJS
-          title="Download Blog"
-          icon={<DownloadOutlined className="card-icon blue" />}
+          linkHref="/dashboard/my-blogs"
         />
       </Col>
       <Col xs={24} sm={12} md={8} xl={6}>
         <CardItemDashJS
           title="My Profile"
           icon={<UserOutlined className="card-icon purple" />}
+          linkHref="/dashboard/profile"
         />
       </Col>
     </Row>

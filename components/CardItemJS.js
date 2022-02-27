@@ -3,11 +3,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const CardItemJS = ({ imgUrl }) => {
+const CardItemJS = ({ blog }) => {
   return (
     <Card
       size="small"
-      title="Learn Typescript"
+      title={blog.title}
       extra={
         <Link href="/blog/id">
           <a>More</a>
@@ -17,16 +17,14 @@ const CardItemJS = ({ imgUrl }) => {
     >
       <div className="img-container">
         <Image
-          src={imgUrl}
+          src="/img/coding-1.jpg"
           alt="Thumbnail"
           width={640}
           height={426}
           layout="responsive"
         />
       </div>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, nam?
-      </p>
+      <p>{blog.text}</p>
     </Card>
   );
 };

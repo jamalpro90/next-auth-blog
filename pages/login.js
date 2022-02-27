@@ -2,6 +2,7 @@ import React from "react";
 import { Typography } from "antd";
 import LayoutJS from "../components/LayoutJS";
 import { GithubOutlined, GoogleOutlined } from "@ant-design/icons";
+import { getSession, signIn } from "next-auth/react";
 
 const { Title, Text } = Typography;
 
@@ -15,15 +16,16 @@ const Login = () => {
           <Title level={2}>Login</Title>
 
           {/* Provider */}
-          <div className="provider github">
+          <div className="provider github" onClick={() => signIn("github")}>
             <Text className="text">
-              Sign In with <GithubOutlined className="provider-icon" />
+              Sign In with Github <GithubOutlined className="provider-icon" />
             </Text>
           </div>
           {/* Provider */}
-          <div className="provider google">
+          <div className="provider google" onClick={() => signIn("google")}>
             <Text className="text">
-              Sign In with <GoogleOutlined className="provider-icon" />
+              Sign In with Google
+              <GoogleOutlined className="provider-icon" />
             </Text>
           </div>
         </div>
@@ -31,5 +33,23 @@ const Login = () => {
     </LayoutJS>
   );
 };
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  // console.log(providers);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 export default Login;

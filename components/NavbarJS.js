@@ -2,11 +2,13 @@ import { AliwangwangFilled, LeftCircleFilled } from "@ant-design/icons";
 import Link from "next/link";
 import React, { useRef } from "react";
 import ButtonNavJS from "./ButtonNavJS";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Tooltip } from "antd";
 
 const NavbarJS = () => {
   const iconContainer = useRef(null);
   const menuMobile = useRef(null);
+  const { data: session } = useSession();
 
   const handleToggleMobile = () => {
     iconContainer.current.classList.toggle("toggle-mobile-icon");
@@ -19,18 +21,34 @@ const NavbarJS = () => {
       <div className="container desktop">
         {/* Left */}
         <div className="left">
-          <Link href="/">
-            <a>
-              <AliwangwangFilled className="icon" />
-            </a>
+          <Link href="/" passHref>
+            <Tooltip placement="right" title="Go To Home" color="red">
+              <a>
+                <AliwangwangFilled className="icon" />
+              </a>
+            </Tooltip>
           </Link>
         </div>
 
         {/* Right */}
-        <div className="right">
-          <p>Hello, Jamal Pro</p>
-          <ButtonNavJS text="Sign In" onClick={() => signIn()} />
-        </div>
+        {session ? (
+          <div className="right">
+            <p>Hello, {session.user.name}</p>
+            <Link href="/dashboard" passHref>
+              <Tooltip placement="bottom" title="Go To Dashboard" color="red">
+                <a className="dash-link">
+                  <strong>DASHBOARD</strong>
+                </a>
+              </Tooltip>
+            </Link>
+            <ButtonNavJS text="Sign out" onClick={() => signOut()} />
+          </div>
+        ) : (
+          <div className="right">
+            {/* <p>Hello, Jamal Pro</p> */}
+            <ButtonNavJS text="Sign in" onClick={() => signIn()} />
+          </div>
+        )}
       </div>
 
       {/* Mobile Navbar */}
@@ -44,7 +62,7 @@ const NavbarJS = () => {
           </Link>
         </div>
 
-        {/* Right */}
+        {/* Right Mobile */}
         <div className="right">
           <div className="icon-container" ref={iconContainer}>
             <LeftCircleFilled
@@ -54,11 +72,18 @@ const NavbarJS = () => {
           </div>
         </div>
 
-        {/* Nav Menu */}
-        <div className="nav-menu-mobile" ref={menuMobile}>
-          <p>Hello, Jamal Pro</p>
-          <ButtonNavJS text="Sign In" onClick={() => signIn()} />
-        </div>
+        {/* Nav Menu Mobile */}
+        {session ? (
+          <div className="nav-menu-mobile" ref={menuMobile}>
+            <p>Hello, {session.user.name}</p>
+            <ButtonNavJS text="Sign out" onClick={() => signOut()} />
+          </div>
+        ) : (
+          <div className="nav-menu-mobile" ref={menuMobile}>
+            {/* <p>Hello, Jamal Pro</p> */}
+            <ButtonNavJS text="Sign in" onClick={() => signIn()} />
+          </div>
+        )}
       </div>
     </div>
   );

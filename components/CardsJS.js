@@ -1,20 +1,33 @@
 import { Card, Col, Row } from "antd";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import CardItemJS from "./CardItemJS";
 
 const CardsJS = () => {
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const getBlogs = async () => {
+      try {
+        const res = await axios.get("/api/blogs");
+        setBlogs(res.data);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    getBlogs();
+  }, []);
+
   return (
     <div>
       <Row gutter={16} style={{ marginTop: 20 }}>
-        <Col xs={12} sm={8} md={8} lg={6} xl={6}>
-          <CardItemJS imgUrl="/img/coding-1.jpg" />
-        </Col>
-        <Col xs={12} sm={8} md={8} lg={6} xl={6}>
-          <CardItemJS imgUrl="/img/coding-2.jpg" />
-        </Col>
-        <Col xs={12} sm={8} md={8} lg={6} xl={6}>
-          <CardItemJS imgUrl="/img/coding-3.jpg" />
-        </Col>
+        {blogs.map(blog => (
+          <Col key={blog._id} xs={12} sm={8} md={8} lg={6} xl={6}>
+            <CardItemJS blog={blog} />
+          </Col>
+        ))}
       </Row>
     </div>
   );

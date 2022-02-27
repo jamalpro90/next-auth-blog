@@ -2,6 +2,7 @@ import { UserOutlined } from "@ant-design/icons";
 import React, { useRef } from "react";
 import LayoutDashMainJS from "../../components/LayoutDashMainJS";
 import { Form, Input, Button, Select, Col, Row, DatePicker } from "antd";
+import { useSession } from "next-auth/react";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -22,6 +23,7 @@ const tailLayout = {
 };
 
 const Dashboard = () => {
+  const { data: session } = useSession();
   const formRef = useRef(null);
 
   // Ketika data berhasil dikirim
@@ -61,6 +63,8 @@ const Dashboard = () => {
     formRef.current.resetFields();
   };
 
+  if (!session) return null;
+
   return (
     <LayoutDashMainJS title="Profile" defaultSelect="4">
       <div className="profile">
@@ -84,7 +88,7 @@ const Dashboard = () => {
 
           {/* Username */}
           <Form.Item label="Username" name="username">
-            <Input defaultValue="Jamal Pro" />
+            <Input defaultValue={session.user.name} />
           </Form.Item>
 
           {/* Address */}

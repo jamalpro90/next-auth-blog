@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { Card, Tooltip } from "antd";
 import {
   DeleteFilled,
@@ -6,40 +6,22 @@ import {
   EditFilled,
   FileOutlined,
 } from "@ant-design/icons";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import IconGroupJS from "./IconGroupJS";
 
 // file css ada di styles/pages/myblog.scss
-const CardItemMyBlogJS = ({ title, text, imgUrl }) => {
+const CardItemMyBlogJS = ({ blog }) => {
   return (
-    <Card className="card" type="inner" title={title} extra={<IconGroup />}>
-      {text}
+    <Card
+      className="card"
+      type="inner"
+      title={blog.title}
+      extra={<IconGroupJS blog={blog} />}
+    >
+      {blog.text}
     </Card>
-  );
-};
-
-const IconGroup = () => {
-  return (
-    <div className="icon-group">
-      <a href="#">
-        <Tooltip placement="topLeft" title="Download File" arrowPointAtCenter>
-          <DownloadOutlined className="icon download" />
-        </Tooltip>
-      </a>
-      <a href="#">
-        <Tooltip placement="topLeft" title="Open File" arrowPointAtCenter>
-          <FileOutlined className="icon open" />
-        </Tooltip>
-      </a>
-      <a href="#">
-        <Tooltip placement="topLeft" title="Edit File" arrowPointAtCenter>
-          <EditFilled className="icon edit" />
-        </Tooltip>
-      </a>
-      <a href="#">
-        <Tooltip placement="topLeft" title="Delete File" arrowPointAtCenter>
-          <DeleteFilled className="icon delete" />
-        </Tooltip>
-      </a>
-    </div>
   );
 };
 
