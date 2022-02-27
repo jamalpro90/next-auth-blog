@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import BlankDataJS from "../../components/BlankDataJS";
-import CardItemMyBlogJS from "../../components/CardItemMyBlogJS";
-import LayoutDashMainJS from "../../components/LayoutDashMainJS";
+import BlankDataJS from "../../../components/BlankDataJS";
+import CardItemMyBlogJS from "../../../components/CardItemMyBlogJS";
+import LayoutDashMainJS from "../../../components/LayoutDashMainJS";
 
 const MyBlogs = () => {
   const [blogs, setBlogs] = useState([]);

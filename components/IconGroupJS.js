@@ -6,13 +6,10 @@ import {
 } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { toast } from "react-toastify";
 
 const IconGroupJS = ({ blog }) => {
-  // const { data: session } = useSession();
-  // console.log(session);
-
   const handleDelete = async () => {
     if (confirm("Are you sure to delete this blog")) {
       try {
@@ -27,10 +24,10 @@ const IconGroupJS = ({ blog }) => {
         toast.success(res.data.message);
         setTimeout(() => {
           location.reload();
-        }, 2000);
+        }, 1500);
       } catch (err) {
         console.log(err.message);
-        toast.error(err.message);
+        toast.error(res.data.message);
       }
     }
   };
@@ -44,7 +41,9 @@ const IconGroupJS = ({ blog }) => {
         <FileOutlined className="icon open" />
       </Tooltip>
       <Tooltip placement="topLeft" title="Edit File" arrowPointAtCenter>
-        <EditFilled className="icon edit" />
+        <Link href={`/dashboard/my-blogs/update/${blog._id}`} passHref>
+          <EditFilled className="icon edit" />
+        </Link>
       </Tooltip>
       <Tooltip placement="topLeft" title="Delete File" arrowPointAtCenter>
         <DeleteFilled className="icon delete" onClick={handleDelete} />

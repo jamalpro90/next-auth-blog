@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     case "DELETE":
       await deleteBlog(req, res);
       break;
-    case "UPDATE":
+    case "PUT":
       await updateBlog(req, res);
       break;
   }
@@ -85,4 +85,20 @@ const deleteBlog = async (req, res) => {
   }
 };
 
-const updateBlog = async (req, res) => {};
+const updateBlog = async (req, res) => {
+  try {
+    const { id, title, text } = req.body;
+
+    if (!title || !text) {
+      return res.status(400).json({ message: "Please check again" });
+    }
+
+    const filter = { _id: id };
+    const update = { title, text };
+
+    await Blogs.findOneAndUpdate(filter, update);
+    res.json({ message: "Success update blog" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
