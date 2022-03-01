@@ -11,7 +11,12 @@ const LayoutJS = ({ children, title }) => {
       </Head>
       <NavbarJS />
 
-      <div className="layout-children">{children}</div>
+      <div
+        className="layout-children"
+        style={{ height: "100vh", overflow: "auto" }}
+      >
+        {children}
+      </div>
 
       <FooterJS />
     </div>

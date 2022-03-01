@@ -1,8 +1,20 @@
+/* eslint-disable @next/next/no-img-element */
 import { UserOutlined } from "@ant-design/icons";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LayoutDashMainJS from "../../components/LayoutDashMainJS";
-import { Form, Input, Button, Select, Col, Row, DatePicker } from "antd";
-import { useSession } from "next-auth/react";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  Col,
+  Row,
+  DatePicker,
+  InputNumber,
+} from "antd";
+import { getSession, useSession } from "next-auth/react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -15,47 +27,31 @@ const layout = {
     span: 16,
   },
 };
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 
-const Dashboard = () => {
+const Profile = ({ profile }) => {
+  // const [name, setName] = useState(profile.name);
   const { data: session } = useSession();
   const formRef = useRef(null);
+  // console.log("profile : ", profile);
 
   // Ketika data berhasil dikirim
-  const onFinish = values => {
+  const onFinish = async values => {
     console.log("Success:", values);
+
+    if (confirm("Are you sure")) {
+      try {
+        const res = await axios.put("/api/profile", { values });
+        toast.success(res.data.message);
+      } catch (err) {
+        console.log(err.message);
+        // toast.error(res.data.message);
+      }
+    }
   };
 
   // ketika data gagal dikirim
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
-  };
-
-  // fungsi pilih gender
-  const onGenderChange = value => {
-    switch (value) {
-      case "male":
-        formRef.current.setFieldsValue({
-          note: "Hi, man!",
-        });
-        return;
-
-      case "female":
-        formRef.current.setFieldsValue({
-          note: "Hi, lady!",
-        });
-        return;
-
-      case "other":
-        formRef.current.setFieldsValue({
-          note: "Hi there!",
-        });
-    }
   };
 
   // ketika tekan tombol reset
@@ -65,8 +61,20 @@ const Dashboard = () => {
 
   if (!session) return null;
 
+  // console.log("SESSION : ", session);
+
+  // const handleTest = async () => {
+  //   try {
+  //     const res = await axios.get("/api/profile");
+  //     toast.success(res.data.message);
+  //   } catch (err) {
+  //     toast.error(err.message);
+  //   }
+  // };
+
   return (
     <LayoutDashMainJS title="Profile" defaultSelect="4">
+      {/* <button onClick={handleTest}>TEST</button> */}
       <div className="profile">
         <Form
           {...layout}
@@ -74,21 +82,43 @@ const Dashboard = () => {
           name="newBlog"
           // labelCol={{ span: 8 }}
           wrapperCol={{ span: 8 }}
-          initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
+          initialValues={{
+            name: profile.name,
+            age: profile.age,
+            address: profile.address,
+            "phone-number": profile["phone-number"],
+            gender: profile.gender,
+            // date: profile.date,
+            about: profile.about,
+          }}
         >
           {/* Icon */}
           <Row justify="center">
             <Col>
-              <UserOutlined className="icon" />
+              {/* <UserOutlined className="icon" /> */}
+              <img src={session.user.image} alt="user image" className="icon" />
             </Col>
           </Row>
 
-          {/* Username */}
-          <Form.Item label="Username" name="username">
-            <Input defaultValue={session.user.name} />
+          {/* Name */}
+          <Form.Item label="Name" name="name">
+            <Input
+              placeholder={session.user.name}
+              // value={name}
+              // onChange={e => setName(e.target.value)}
+            />
+          </Form.Item>
+
+          {/* Age */}
+          <Form.Item
+            name="age"
+            label="Age"
+            rules={[{ type: "number", min: 0, max: 99 }]}
+          >
+            <InputNumber placeholder="20" />
           </Form.Item>
 
           {/* Address */}
@@ -105,7 +135,6 @@ const Dashboard = () => {
           <Form.Item name="gender" label="Gender">
             <Select
               placeholder="Select a option and change input text above"
-              onChange={onGenderChange}
               allowClear
             >
               <Option value="male">male</Option>
@@ -131,7 +160,7 @@ const Dashboard = () => {
           </Form.Item>
 
           {/* Tanggal lahir */}
-          <Form.Item label="Date of birth">
+          <Form.Item label="Date of birth" name="date">
             <DatePicker />
           </Form.Item>
 
@@ -164,4 +193,18 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  const id = session.userId;
+
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);
+  const profiles = await res.json();
+  const profile = profiles.find(pro => pro.asu === id);
+  // console.log(session);
+
+  return {
+    props: { profile: profile || {} }, // will be passed to the page component as props
+  };
+}

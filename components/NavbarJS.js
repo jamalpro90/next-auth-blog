@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { AliwangwangFilled, LeftCircleFilled } from "@ant-design/icons";
 import Link from "next/link";
 import React, { useRef } from "react";
@@ -9,6 +10,7 @@ const NavbarJS = () => {
   const iconContainer = useRef(null);
   const menuMobile = useRef(null);
   const { data: session } = useSession();
+  // console.log(session);
 
   const handleToggleMobile = () => {
     iconContainer.current.classList.toggle("toggle-mobile-icon");
@@ -42,6 +44,11 @@ const NavbarJS = () => {
               </Tooltip>
             </Link>
             <ButtonNavJS text="Sign out" onClick={() => signOut()} />
+            <img
+              src={session.user.image}
+              alt="user image"
+              referrerPolicy="no-referrer"
+            />
           </div>
         ) : (
           <div className="right">
@@ -55,10 +62,12 @@ const NavbarJS = () => {
       <div className="container mobile">
         {/* Left */}
         <div className="left">
-          <Link href="/">
-            <a>
-              <AliwangwangFilled className="icon" />
-            </a>
+          <Link href="/" passHref>
+            <Tooltip placement="rightBottom" title="Go To Home" color="red">
+              <a>
+                <AliwangwangFilled className="icon" />
+              </a>
+            </Tooltip>
           </Link>
         </div>
 
@@ -75,7 +84,17 @@ const NavbarJS = () => {
         {/* Nav Menu Mobile */}
         {session ? (
           <div className="nav-menu-mobile" ref={menuMobile}>
+            <img
+              src={session.user.image}
+              alt="user image"
+              referrerPolicy="no-referrer"
+            />
             <p>Hello, {session.user.name}</p>
+            <Link href="/dashboard" passHref>
+              <a className="dash-link">
+                <strong>DASHBOARD</strong>
+              </a>
+            </Link>
             <ButtonNavJS text="Sign out" onClick={() => signOut()} />
           </div>
         ) : (

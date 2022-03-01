@@ -1,6 +1,7 @@
 @import "~antd/dist/antd.css";
 @import "./variables.scss";
 @import "./components/NavbarJS.scss";
+@import "./components/CardItemJS.scss";
 @import "./pages/blogDetail.scss";
 @import "./components/FooterJS.scss";
 @import "./pages/login.scss";
@@ -38,7 +39,7 @@ a {
   min-height: 100vh;
 
   .layout-children {
-    padding: 5rem 2rem 0 2rem;
+    padding: 5rem 2rem;
   }
 }
 

@@ -5,6 +5,10 @@
 
   .card {
     margin-bottom: 30px;
+    max-height: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: $box-shadow;
   }
 
   .icon-group {
@@ -30,7 +34,7 @@
 }
 @media (max-width: 600px) {
   .my-blog {
-    position: relative;
+    // position: relative;
 
     .card {
       padding-bottom: 30px;
@@ -40,10 +44,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       position: absolute;
       bottom: 0;
-      left: 0;
+      left: 0rem;
       right: 0;
+      background-color: $color4;
+      // border-top: 1px solid $color1;
+
+      .icon {
+        padding: 5px 0;
+      }
     }
   }
 }

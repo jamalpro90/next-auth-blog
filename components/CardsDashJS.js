@@ -10,22 +10,22 @@ import {
 
 const CardsDashJS = () => {
   return (
-    <Row className="cards-dash">
-      <Col xs={24} sm={12} md={8} xl={6}>
+    <Row gutter={{ xs: 12 }} className="cards-dash">
+      <Col xs={12} sm={12} md={8} xl={6}>
         <CardItemDashJS
           title="Create a new blog"
           icon={<PlusOutlined className="card-icon red" />}
           linkHref="/dashboard/new-blog"
         />
       </Col>
-      <Col xs={24} sm={12} md={8} xl={6}>
+      <Col xs={12} sm={12} md={8} xl={6}>
         <CardItemDashJS
           title="All My Blog"
           icon={<BookOutlined className="card-icon green" />}
           linkHref="/dashboard/my-blogs"
         />
       </Col>
-      <Col xs={24} sm={12} md={8} xl={6}>
+      <Col xs={12} sm={12} md={8} xl={6}>
         <CardItemDashJS
           title="My Profile"
           icon={<UserOutlined className="card-icon purple" />}

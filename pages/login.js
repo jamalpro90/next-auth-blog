@@ -36,7 +36,6 @@ const Login = () => {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  // console.log(providers);
 
   if (session) {
     return {
