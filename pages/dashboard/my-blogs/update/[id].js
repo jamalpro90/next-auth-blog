@@ -5,6 +5,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import ReactQuill from "react-quill";
 
 const { TextArea } = Input;
 
@@ -52,6 +53,10 @@ const UpdateBlog = ({ blog }) => {
     toast.error("Error see the console");
   };
 
+  const handleText = value => {
+    setText({ value });
+  };
+
   return (
     <LayoutDashMainJS title="Update Blog" defaultSelect="3">
       <Form
@@ -82,12 +87,17 @@ const UpdateBlog = ({ blog }) => {
           name="text"
           rules={[{ required: true, message: "Text cannot be empty" }]}
         >
-          <TextArea
+          <ReactQuill
+            placeholder="Change your blog"
+            value={text}
+            onChange={handleText}
+          />
+          {/* <TextArea
             rows={10}
             placeholder="Write your blog"
             value={text}
             onChange={e => setText(e.target.value)}
-          />
+          /> */}
         </Form.Item>
 
         {/* Upload */}

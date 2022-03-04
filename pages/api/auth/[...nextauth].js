@@ -19,9 +19,9 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  // pages: {
-  //   signIn: "/login",
-  // },
+  pages: {
+    signIn: "/login",
+  },
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     async session({ session, user }) {

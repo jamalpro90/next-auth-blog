@@ -4,17 +4,18 @@ import { Form, Input, Button, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ReactQuill from "react-quill";
 
 const { TextArea } = Input;
 
 const NewBlog = () => {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState({});
   const [text, setText] = useState("");
   const [form] = Form.useForm();
 
   // ketika file gambar berhasil di upload
   const normFile = e => {
-    console.log("Upload event:", e);
+    console.log("Upload event:", e.file.originFileObj);
     if (Array.isArray(e)) {
       return e;
     }
@@ -23,14 +24,16 @@ const NewBlog = () => {
 
   // // Ketika data berhasil dikirim
   const onFinish = async values => {
-    console.log("Success:", values);
+    console.log("Success:", {
+      ...values,
+      // image: values.image[0].originFileObj || "",
+    });
 
     const res = await axios.post("/api/blog", {
       title,
       text,
     });
     toast.success(res.data.message);
-    // console.log("Data : ", res);
 
     form.resetFields();
   };
@@ -41,21 +44,9 @@ const NewBlog = () => {
     toast.error("Error see the console");
   };
 
-  const handleSubmit = async () => {
-    // console.log(title);
-    // console.log(text);
-    toast.success("hello guys");
-
-    // try {
-    //   const res = await axios.post("/api/blog", { title, text });
-    //   toast.success(res.data.message);
-    //   setTitle("");
-    //   setText("");
-    // } catch (err) {
-    //   // toast.error(err.response.data.message)
-    //   console.log(err);
-    // }
-    // form.resetFields();
+  const handleText = value => {
+    setText({ value });
+    console.log(value);
   };
 
   return (
@@ -87,23 +78,28 @@ const NewBlog = () => {
           name="text"
           rules={[{ required: true, message: "Text cannot be empty" }]}
         >
-          <TextArea
+          <ReactQuill
+            value={text}
+            placeholder="Write your blog"
+            onChange={handleText}
+          />
+          {/* <TextArea
             rows={10}
             placeholder="Write your blog"
             value={text}
             onChange={e => setText(e.target.value)}
-          />
+          /> */}
         </Form.Item>
 
-        {/* Upload */}
+        {/* Upload Image */}
         {/* <Form.Item
-          name="upload"
+          name="image"
           label="Upload"
           valuePropName="fileList"
           getValueFromEvent={normFile}
-          extra="Add image"
+          extra="Add some image"
         >
-          <Upload name="logo" action="/upload.do" listType="picture">
+          <Upload name="image" listType="picture">
             <Button icon={<UploadOutlined />}>Click to upload</Button>
           </Upload>
         </Form.Item> */}

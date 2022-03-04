@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import IconGroupJS from "./IconGroupJS";
+import parse from "html-react-parser";
 
 // file css ada di styles/pages/myblog.scss
 const CardItemMyBlogJS = ({ blog }) => {
@@ -20,7 +21,8 @@ const CardItemMyBlogJS = ({ blog }) => {
       title={blog.title}
       extra={<IconGroupJS blog={blog} />}
     >
-      {blog.text}
+      {/* {parserHTML()} */}
+      {parse(`${blog.text}`)}
     </Card>
   );
 };

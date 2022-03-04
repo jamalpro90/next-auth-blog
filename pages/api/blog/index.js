@@ -30,16 +30,17 @@ const createBlog = async (req, res) => {
     }
 
     const { userId } = session;
-    const { title, text } = req.body;
+    const { title, text, image } = req.body;
     // console.log(title, text);
 
     if (!title || !text) {
       return res.status(400).json({ message: "Please check again" });
     }
 
+    // console.log(text.value);
     const newBlog = new Blogs({
       title: title,
-      text: text,
+      text: text.value,
       user: userId,
     });
 
@@ -94,7 +95,7 @@ const updateBlog = async (req, res) => {
     }
 
     const filter = { _id: id };
-    const update = { title, text };
+    const update = { title, text: text.value };
 
     await Blogs.findOneAndUpdate(filter, update);
     res.json({ message: "Success update blog" });

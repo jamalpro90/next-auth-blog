@@ -6,6 +6,7 @@ import NProgress from "nprogress";
 import "../public/nprogress.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-quill/dist/quill.snow.css";
 
 export default function App({
   Component,

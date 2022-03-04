@@ -5,12 +5,15 @@ import { AudioOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
-const InputSearchJS = () => {
+const InputSearchJS = ({ setSearchValue }) => {
   // ketika tombol search di klik
-  const onSearch = value => console.log(value);
+  const onSearch = value => {
+    console.log(value);
+    setSearchValue(value);
+  };
 
   return (
-    <form>
+    <form onSubmit={e => e.preventDefault()}>
       <Search
         placeholder="input search text"
         allowClear
