@@ -211,7 +211,7 @@ export async function getServerSideProps(context) {
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);
     const profiles = await res.json();
     const profile = profiles.find(pro => pro.asu === id);
-    return { props: { profile } };
+    return { props: profile };
   }
   // console.log(session);
 
