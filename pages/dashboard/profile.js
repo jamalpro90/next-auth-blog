@@ -211,10 +211,11 @@ export async function getServerSideProps(context) {
     const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);
     const profiles = await res.json();
     const profile = profiles.find(pro => pro.asu === id);
+    return { props: { profile } };
   }
   // console.log(session);
 
   return {
-    props: { profile: profile || {} }, // will be passed to the page component as props
+    props: { profile: {} }, // will be passed to the page component as props
   };
 }
