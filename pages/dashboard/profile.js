@@ -15,6 +15,7 @@ import {
 import { getSession, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -32,7 +33,13 @@ const Profile = ({ profile }) => {
   // const [name, setName] = useState(profile.name);
   const { data: session } = useSession();
   const formRef = useRef(null);
-  // console.log("profile : ", profile);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) {
+      return router.push("/");
+    }
+  }, [session]);
 
   // Ketika data berhasil dikirim
   const onFinish = async values => {
@@ -196,7 +203,17 @@ const Profile = ({ profile }) => {
 export default Profile;
 
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
+  const { session } = getSession();
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   const id = session.userId;
 
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import LayoutDashMainJS from "../../components/LayoutDashMainJS";
 import { Form, Input, Button, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
@@ -6,6 +6,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 // import ReactQuill from "react-quill";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const { TextArea } = Input;
 
@@ -13,6 +15,14 @@ const NewBlog = () => {
   const [title, setTitle] = useState({});
   const [text, setText] = useState("");
   const [form] = Form.useForm();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) {
+      return router.push("/");
+    }
+  }, [session]);
 
   // ketika file gambar berhasil di upload
   const normFile = e => {
