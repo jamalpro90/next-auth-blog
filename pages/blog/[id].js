@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import LayoutJS from "../../components/LayoutJS";
 import { Typography } from "antd";
+import parse from "html-react-parser";
 
 const { Title, Text } = Typography;
 
@@ -37,9 +38,7 @@ const BlogDetail = ({ blog }) => {
         <br />
 
         {/* Text */}
-        <div className="text">
-          <Text>{blog.text}</Text>
-        </div>
+        <div className="text">{parse(`${blog.text}`)}</div>
       </div>
     </LayoutJS>
   );

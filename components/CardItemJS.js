@@ -2,6 +2,7 @@ import { Card } from "antd";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import parse from "html-react-parser";
 
 const CardItemJS = ({ blog }) => {
   return (
@@ -24,7 +25,7 @@ const CardItemJS = ({ blog }) => {
           layout="responsive"
         />
       </div>
-      <p>{blog.text}</p>
+      {parse(`${blog.text}`)}
     </Card>
   );
 };
