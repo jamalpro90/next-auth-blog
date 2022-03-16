@@ -1,4 +1,4 @@
-import React, { useE } from "react";
+import React, { useEffect } from "react";
 import CardsDashJS from "../../components/CardsDashJS";
 import LayoutDashMainJS from "../../components/LayoutDashMainJS";
 import { useSession } from "next-auth/react";
@@ -25,3 +25,16 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+// import type { NextFetchEvent, NextRequest } from 'next/server'
+// import { NextResponse } from "next/server";
+
+// export async function middleware(req, ev) {
+//   const sessionToken = req.cookies["next-auth.session-token"];
+
+//   if (sessionToken === undefined) {
+//     const url = req.nextUrl.clone();
+//     url.pathname = "/";
+//     return NextResponse.redirect(url);
+//   }
+// }
