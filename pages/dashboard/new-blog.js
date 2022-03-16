@@ -4,7 +4,8 @@ import { Form, Input, Button, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { toast } from "react-toastify";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
 
 const { TextArea } = Input;
 
@@ -30,8 +31,8 @@ const NewBlog = () => {
     });
 
     const res = await axios.post("/api/blog", {
-      title,
-      text,
+      title: values.title,
+      text: values.text,
     });
     toast.success(res.data.message);
 
@@ -69,7 +70,7 @@ const NewBlog = () => {
           <Input
             placeholder="Add a title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            // onChange={e => setTitle(e.target.value)}
           />
         </Form.Item>
 
@@ -78,17 +79,17 @@ const NewBlog = () => {
           name="text"
           rules={[{ required: true, message: "Text cannot be empty" }]}
         >
-          <ReactQuill
+          {/* <ReactQuill
             value={text}
             placeholder="Write your blog"
             onChange={handleText}
-          />
-          {/* <TextArea
+          /> */}
+          <TextArea
             rows={10}
             placeholder="Write your blog"
             value={text}
-            onChange={e => setText(e.target.value)}
-          /> */}
+            // onChange={e => setText(e.target.value)}
+          />
         </Form.Item>
 
         {/* Upload Image */}
@@ -114,4 +115,4 @@ const NewBlog = () => {
   );
 };
 
-export default NewBlog;
+export default dynamic(() => Promise.resolve(NewBlog), { ssr: false });

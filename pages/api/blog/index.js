@@ -40,7 +40,7 @@ const createBlog = async (req, res) => {
     // console.log(text.value);
     const newBlog = new Blogs({
       title: title,
-      text: text.value,
+      text: text,
       user: userId,
     });
 
@@ -95,7 +95,7 @@ const updateBlog = async (req, res) => {
     }
 
     const filter = { _id: id };
-    const update = { title, text: text.value };
+    const update = { title, text };
 
     await Blogs.findOneAndUpdate(filter, update);
     res.json({ message: "Success update blog" });

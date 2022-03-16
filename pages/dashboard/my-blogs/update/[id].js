@@ -1,11 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import LayoutDashMainJS from "../../../../components/LayoutDashMainJS";
 import { Form, Input, Button, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
+import parse from "html-react-parser";
 
 const { TextArea } = Input;
 
@@ -15,14 +17,27 @@ const UpdateBlog = ({ blog }) => {
   const [form] = Form.useForm();
   const router = useRouter();
 
+  // useEffect(() => {
+  //   const fetchBlog = async () => {
+  //     const id = router.query.id;
+  //     const res = await axios.get(`/api/blogs`);
+  //     const blogs = await res.data;
+  //     const blog = blogs.find(blog => blog._id === id);
+  //     // console.log(blog.text);
+  //     setTitle(blog.title);
+  //     setText(blog.text);
+  //   };
+  //   fetchBlog();
+  // }, []);
+
   // ketika file gambar berhasil di upload
-  const normFile = e => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+  // const normFile = e => {
+  //   console.log("Upload event:", e);
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e && e.fileList;
+  // };
 
   // // Ketika data berhasil dikirim
   const onFinish = async values => {
@@ -34,8 +49,8 @@ const UpdateBlog = ({ blog }) => {
       const id = router.query.id;
 
       const res = await axios.put("/api/blog", {
-        title,
-        text,
+        title: values.title,
+        text: values.text,
         id,
       });
 
@@ -59,6 +74,8 @@ const UpdateBlog = ({ blog }) => {
 
   return (
     <LayoutDashMainJS title="Update Blog" defaultSelect="3">
+      {title && console.log(title)}
+      {text && console.log(text)}
       <Form
         form={form}
         name="newBlog"
@@ -77,7 +94,7 @@ const UpdateBlog = ({ blog }) => {
           <Input
             placeholder="Add a title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            // onChange={e => setTitle(e.target.value)}
             // initialValues={blog.title}
           />
         </Form.Item>
@@ -87,17 +104,17 @@ const UpdateBlog = ({ blog }) => {
           name="text"
           rules={[{ required: true, message: "Text cannot be empty" }]}
         >
-          <ReactQuill
+          {/* <ReactQuill
             placeholder="Change your blog"
             value={text}
             onChange={handleText}
-          />
-          {/* <TextArea
+          /> */}
+          <TextArea
             rows={10}
             placeholder="Write your blog"
             value={text}
-            onChange={e => setText(e.target.value)}
-          /> */}
+            // onChange={e => setText(e.target.value)}
+          />
         </Form.Item>
 
         {/* Upload */}
@@ -123,7 +140,8 @@ const UpdateBlog = ({ blog }) => {
   );
 };
 
-export default UpdateBlog;
+export default dynamic(() => Promise.resolve(UpdateBlog), { ssr: false });
+// export default UpdateBlog;
 
 export async function getServerSideProps(context) {
   const id = context.params.id;
