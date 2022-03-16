@@ -205,20 +205,13 @@ export default Profile;
 export async function getServerSideProps(context) {
   const { session } = getSession();
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+  if (session) {
+    const id = session.userId;
+
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);
+    const profiles = await res.json();
+    const profile = profiles.find(pro => pro.asu === id);
   }
-
-  const id = session.userId;
-
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);
-  const profiles = await res.json();
-  const profile = profiles.find(pro => pro.asu === id);
   // console.log(session);
 
   return {

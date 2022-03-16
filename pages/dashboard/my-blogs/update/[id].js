@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 // import ReactQuill from "react-quill";
 import dynamic from "next/dynamic";
 import parse from "html-react-parser";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 const { TextArea } = Input;
 
@@ -16,23 +16,24 @@ const UpdateBlog = ({ blog }) => {
   const [title, setTitle] = useState(blog.title);
   const [text, setText] = useState(blog.text);
   const [form] = Form.useForm();
+  const { data: session } = useSession();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!session) {
-  //     return router.push("/");
-  //   }
-  //   // const fetchBlog = async () => {
-  //   //   const id = router.query.id;
-  //   //   const res = await axios.get(`/api/blogs`);
-  //   //   const blogs = await res.data;
-  //   //   const blog = blogs.find(blog => blog._id === id);
-  //   //   // console.log(blog.text);
-  //   //   setTitle(blog.title);
-  //   //   setText(blog.text);
-  //   // };
-  //   // fetchBlog();
-  // }, [session]);
+  useEffect(() => {
+    if (!session) {
+      return router.push("/");
+    }
+    // const fetchBlog = async () => {
+    //   const id = router.query.id;
+    //   const res = await axios.get(`/api/blogs`);
+    //   const blogs = await res.data;
+    //   const blog = blogs.find(blog => blog._id === id);
+    //   // console.log(blog.text);
+    //   setTitle(blog.title);
+    //   setText(blog.text);
+    // };
+    // fetchBlog();
+  }, [session]);
 
   // ketika file gambar berhasil di upload
   // const normFile = e => {
@@ -148,17 +149,6 @@ export default dynamic(() => Promise.resolve(UpdateBlog), { ssr: false });
 // export default UpdateBlog;
 
 export async function getServerSideProps(context) {
-  const { session } = getSession();
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   const id = context.params.id;
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blogs`);
   const blogs = await res.json();
