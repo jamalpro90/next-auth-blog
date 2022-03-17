@@ -1,21 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import { UserOutlined } from "@ant-design/icons";
-import React, { useEffect, useRef, useState } from "react";
-import LayoutDashMainJS from "../../components/LayoutDashMainJS";
 import {
+  Button,
+  Col,
+  DatePicker,
   Form,
   Input,
-  Button,
-  Select,
-  Col,
-  Row,
-  DatePicker,
   InputNumber,
+  Row,
+  Select,
 } from "antd";
-import { getSession, useSession } from "next-auth/react";
-import { toast } from "react-toastify";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { getSession, useSession } from "next-auth/react";
+import React, { useRef } from "react";
+import { toast } from "react-toastify";
+import LayoutDashMainJS from "../../components/LayoutDashMainJS";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -30,27 +28,8 @@ const layout = {
 };
 
 const Profile = ({ profile }) => {
-  // const [name, setName] = useState(profile.name);
-  // const [profile, setProfile] = useState({});
   const { data: session } = useSession();
   const formRef = useRef(null);
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (!session) {
-  //     return router.push("/");
-  //   }
-  //   const fetchUserProfile = async () => {
-  //     const id = session.userId;
-
-  //     const res = await axios.get(`/api/profile`);
-  //     const profiles = await res.data;
-  //     const userProfile = profiles.find(pro => pro.asu === id);
-  //     setProfile(userProfile);
-  //     console.log(profile);
-  //   };
-  //   fetchUserProfile();
-  // }, [session]);
 
   // Ketika data berhasil dikirim
   const onFinish = async values => {
@@ -78,17 +57,6 @@ const Profile = ({ profile }) => {
   };
 
   if (!session) return null;
-
-  // console.log("SESSION : ", session);
-
-  // const handleTest = async () => {
-  //   try {
-  //     const res = await axios.get("/api/profile");
-  //     toast.success(res.data.message);
-  //   } catch (err) {
-  //     toast.error(err.message);
-  //   }
-  // };
 
   return (
     <LayoutDashMainJS title="Profile" defaultSelect="4">

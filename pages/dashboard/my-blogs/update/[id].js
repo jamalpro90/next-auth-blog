@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import LayoutDashMainJS from "../../../../components/LayoutDashMainJS";
 import { Form, Input, Button, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
@@ -7,33 +7,13 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 // import ReactQuill from "react-quill";
 import dynamic from "next/dynamic";
-import parse from "html-react-parser";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 const { TextArea } = Input;
 
 const UpdateBlog = ({ blog }) => {
-  const [title, setTitle] = useState(blog.title);
-  const [text, setText] = useState(blog.text);
   const [form] = Form.useForm();
-  const { data: session } = useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      return router.push("/");
-    }
-    // const fetchBlog = async () => {
-    //   const id = router.query.id;
-    //   const res = await axios.get(`/api/blogs`);
-    //   const blogs = await res.data;
-    //   const blog = blogs.find(blog => blog._id === id);
-    //   // console.log(blog.text);
-    //   setTitle(blog.title);
-    //   setText(blog.text);
-    // };
-    // fetchBlog();
-  }, [session]);
 
   // ketika file gambar berhasil di upload
   // const normFile = e => {
@@ -46,7 +26,7 @@ const UpdateBlog = ({ blog }) => {
 
   // // Ketika data berhasil dikirim
   const onFinish = async values => {
-    if (title === "" || text === "") {
+    if (values.title === "" || values.text === "") {
       return toast.error("Title or Text cannot be empty");
     }
 
@@ -79,8 +59,6 @@ const UpdateBlog = ({ blog }) => {
 
   return (
     <LayoutDashMainJS title="Update Blog" defaultSelect="3">
-      {title && console.log(title)}
-      {text && console.log(text)}
       <Form
         form={form}
         name="newBlog"
@@ -98,7 +76,6 @@ const UpdateBlog = ({ blog }) => {
         >
           <Input
             placeholder="Add a title"
-            value={title}
             // onChange={e => setTitle(e.target.value)}
             // initialValues={blog.title}
           />
@@ -117,7 +94,6 @@ const UpdateBlog = ({ blog }) => {
           <TextArea
             rows={10}
             placeholder="Write your blog"
-            value={text}
             // onChange={e => setText(e.target.value)}
           />
         </Form.Item>
@@ -149,6 +125,17 @@ export default dynamic(() => Promise.resolve(UpdateBlog), { ssr: false });
 // export default UpdateBlog;
 
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   const id = context.params.id;
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/blogs`);
   const blogs = await res.json();

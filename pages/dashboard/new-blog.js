@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import LayoutDashMainJS from "../../components/LayoutDashMainJS";
 import { Form, Input, Button, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
@@ -6,23 +6,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 // import ReactQuill from "react-quill";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 const { TextArea } = Input;
 
 const NewBlog = () => {
-  const [title, setTitle] = useState({});
-  const [text, setText] = useState("");
   const [form] = Form.useForm();
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      return router.push("/");
-    }
-  }, [session]);
 
   // ketika file gambar berhasil di upload
   const normFile = e => {
@@ -55,10 +44,10 @@ const NewBlog = () => {
     toast.error("Error see the console");
   };
 
-  const handleText = value => {
-    setText({ value });
-    console.log(value);
-  };
+  // const handleText = value => {
+  //   setText({ value });
+  //   console.log(value);
+  // };
 
   return (
     <LayoutDashMainJS title="Add New Blog" defaultSelect="2">
@@ -79,7 +68,6 @@ const NewBlog = () => {
         >
           <Input
             placeholder="Add a title"
-            value={title}
             // onChange={e => setTitle(e.target.value)}
           />
         </Form.Item>
@@ -97,7 +85,6 @@ const NewBlog = () => {
           <TextArea
             rows={10}
             placeholder="Write your blog"
-            value={text}
             // onChange={e => setText(e.target.value)}
           />
         </Form.Item>
@@ -126,3 +113,20 @@ const NewBlog = () => {
 };
 
 export default dynamic(() => Promise.resolve(NewBlog), { ssr: false });
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+}

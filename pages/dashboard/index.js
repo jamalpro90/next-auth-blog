@@ -1,18 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CardsDashJS from "../../components/CardsDashJS";
 import LayoutDashMainJS from "../../components/LayoutDashMainJS";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { getSession, useSession } from "next-auth/react";
 
 const Dashboard = () => {
   const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      return router.push("/");
-    }
-  });
 
   if (!session) return null;
 
@@ -25,6 +17,23 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+}
 
 // import type { NextFetchEvent, NextRequest } from 'next/server'
 // import { NextResponse } from "next/server";
