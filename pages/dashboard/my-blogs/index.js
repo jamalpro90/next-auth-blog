@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import BlankDataJS from "../../../components/BlankDataJS";
@@ -9,13 +9,13 @@ import LayoutDashMainJS from "../../../components/LayoutDashMainJS";
 
 const MyBlogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const { data: session } = useSession();
-  const router = useRouter();
+  // const { data: session } = useSession();
+  // const router = useRouter();
 
   useEffect(() => {
-    if (!session) {
-      return router.push("/");
-    }
+    // if (!session) {
+    //   return router.push("/");
+    // }
     const getBlogs = async () => {
       try {
         const res = await axios.get("/api/blog");
@@ -26,7 +26,7 @@ const MyBlogs = () => {
     };
 
     getBlogs();
-  }, [session]);
+  }, []);
 
   return (
     <LayoutDashMainJS title="My Blogs" defaultSelect="3">
@@ -43,3 +43,20 @@ const MyBlogs = () => {
 };
 
 export default MyBlogs;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+}

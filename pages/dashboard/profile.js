@@ -31,15 +31,26 @@ const layout = {
 
 const Profile = ({ profile }) => {
   // const [name, setName] = useState(profile.name);
+  // const [profile, setProfile] = useState({});
   const { data: session } = useSession();
   const formRef = useRef(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!session) {
-      return router.push("/");
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (!session) {
+  //     return router.push("/");
+  //   }
+  //   const fetchUserProfile = async () => {
+  //     const id = session.userId;
+
+  //     const res = await axios.get(`/api/profile`);
+  //     const profiles = await res.data;
+  //     const userProfile = profiles.find(pro => pro.asu === id);
+  //     setProfile(userProfile);
+  //     console.log(profile);
+  //   };
+  //   fetchUserProfile();
+  // }, [session]);
 
   // Ketika data berhasil dikirim
   const onFinish = async values => {
@@ -203,19 +214,25 @@ const Profile = ({ profile }) => {
 export default Profile;
 
 export async function getServerSideProps(context) {
-  const { session } = getSession();
+  const session = await getSession(context);
 
-  if (session) {
-    const id = session.userId;
-
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);
-    const profiles = await res.json();
-    const profile = profiles.find(pro => pro.asu === id);
-    return { props: profile };
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
+
+  const id = session.userId;
+
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`);
+  const profiles = await res.json();
+  const profile = profiles.find(pro => pro.asu === id);
   // console.log(session);
 
   return {
-    props: { profile: {} }, // will be passed to the page component as props
+    props: { profile: profile || {} }, // will be passed to the page component as props
   };
 }
